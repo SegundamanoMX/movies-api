@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"errors"
 )
 
 // APIMovieSearcher is a MovieSearcher implementation using omdbapi
@@ -83,6 +84,11 @@ func (s *APIMovieSearcher) SearchMovies(query string, sort bool) ([]Movie, error
 		if jsonError != nil {
 			return nil, jsonError
 		}
+
+		if response.Response == "False" {
+			return nil, errors.New(response.Error)
+		}
+
 		respStruct.AddItem(response.Search)
 		totalPages, err = strconv.ParseInt(response.Total, 10, 64)
 

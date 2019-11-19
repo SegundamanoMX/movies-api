@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
-	
+
 	"github.com/gorilla/mux"
 	"github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies"
 )

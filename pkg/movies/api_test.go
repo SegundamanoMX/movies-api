@@ -2,6 +2,7 @@ package movies
 
 import (
 	"net/http"
+	"strings"
 	"testing"
 
 	"github.com/jarcoal/httpmock"
@@ -24,6 +25,31 @@ func TestSearchMovies(t *testing.T) {
 			},
 			expectedErrorString: "",
 		},
+		{
+			name:             "SortedCase",
+			mockResponseBody: `{"Search":[{"Title":"Star Wars: The Empire Strikes Back","Year":"1980"}, {"Title":"Star Wars: A New Hope","Year":"1977"}]}`,
+			expectedMovies: []Movie{
+				{Title: "Star Wars: A New Hope", Year: "1977"},
+				{Title: "Star Wars: The Empire Strikes Back", Year: "1980"},
+			},
+			expectedErrorString: "",
+		},
+		{
+			name:             "SortedCaseAlphanumeric",
+			mockResponseBody: `{"Search":[{"Title":"Star Wars: The Empire Strikes Back","Year":"1977"}, {"Title":"Star Wars: A New Hope","Year":"1977"}]}`,
+			expectedMovies: []Movie{
+				{Title: "Star Wars: A New Hope", Year: "1977"},
+				{Title: "Star Wars: The Empire Strikes Back", Year: "1977"},
+			},
+			expectedErrorString: "",
+		},
+
+		{
+			name:                "NotFoundError",
+			mockResponseBody:    `{"Response":"False","Error":"Movie not found!"}`,
+			expectedMovies:      nil,
+			expectedErrorString: "Movie not found!",
+		},
 	}
 
 	searcher := &APIMovieSearcher{
@@ -45,7 +71,13 @@ func TestSearchMovies(t *testing.T) {
 
 		// run test
 		t.Run(c.name, func(t *testing.T) {
-			actualMovies, actualError := searcher.SearchMovies("star wars", false)
+
+			var sort bool = false
+			if strings.Contains(c.name, "Sort") {
+				sort = true
+			}
+
+			actualMovies, actualError := searcher.SearchMovies("star wars", sort)
 			assert.EqualValues(t, c.expectedMovies, actualMovies)
 			if c.expectedErrorString == "" {
 				assert.NoError(t, actualError)
