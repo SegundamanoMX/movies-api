@@ -50,6 +50,19 @@ func TestSearchMovies(t *testing.T) {
 			expectedMovies:      nil,
 			expectedErrorString: "Movie not found!",
 		},
+		{
+			name:                "JSONParseError",
+			mockResponseBody:    "",
+			expectedMovies:      nil,
+			expectedErrorString: "unexpected end of JSON input",
+		},
+
+		{
+			name:                "JSONInvalidError",
+			mockResponseBody:    `{Response":"False","Error":"Movie not found!"}`,
+			expectedMovies:      nil,
+			expectedErrorString: "invalid character 'R' looking for beginning of object key string",
+		},
 	}
 
 	searcher := &APIMovieSearcher{
