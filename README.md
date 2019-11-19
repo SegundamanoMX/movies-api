@@ -1,3 +1,8 @@
+
+[![codecov](https://codecov.io/gh/magg/movies-api/branch/master/graph/badge.svg)](https://codecov.io/gh/magg/movies-api)
+
+
+
 # movies-api
 
 `movies-api` is an API that returns information on movies, based on a text search. Currently it uses [omdbapi.com](https://omdbapi.com) to do so.
