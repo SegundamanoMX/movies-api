@@ -17,13 +17,15 @@ func TestSearchMovies(t *testing.T) {
 	}{
 		{
 			name:             "RegularCase",
-			mockResponseBody: `{"Search":[{"Title":"Star Wars: A New Hope","Year":"1977"},{"Title":"Star Wars: The Empire Strikes Back","Year":"1980"}]}`,
+			mockResponseBody: `{"Search":[{"Title":"Star Wars: A New Hope","Year":"1977"},{"Title":"Star Wars: The Empire Strikes Back","Year":"1980"},{"Title":"Solo: A Star Wars Story","Year":"2018"}]}`,
 			expectedMovies: []Movie{
 				{Title: "Star Wars: A New Hope", Year: "1977"},
 				{Title: "Star Wars: The Empire Strikes Back", Year: "1980"},
+				{Title:"Solo: A Star Wars Story",Year:"2018"},
 			},
 			expectedErrorString: "",
 		},
+		
 	}
 
 	searcher := &APIMovieSearcher{
@@ -55,3 +57,4 @@ func TestSearchMovies(t *testing.T) {
 		})
 	}
 }
+
