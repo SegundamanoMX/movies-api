@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 // APIMovieSearcher is a MovieSearcher implementation using omdbapi
@@ -20,24 +21,31 @@ type omdbapiResponse struct {
 // SearchMovies searches for a movie
 func (s *APIMovieSearcher) SearchMovies(query string) ([]Movie, error) {
 
-	// call omdbapi
-	params := url.Values{}
-	params.Add("s", query)
-	params.Add("apikey", s.APIKey)
-	params.Add("type", "movie")
-	resp, err := http.Get(s.URL + "?" + params.Encode())
-	if err != nil {
-		return nil, err
+	// now able to gather 100 pages
+	var fullMovieList []Movie
+
+	for index := 0; index < 100; index++ {
+
+		// call omdbapi
+		params := url.Values{}
+		params.Add("s", query)
+		params.Add("apikey", s.APIKey)
+		params.Add("type", "movie")
+		params.Add("page", strconv.Itoa(index))
+		resp, err := http.Get(s.URL + "?" + params.Encode())
+		if err != nil {
+			return nil, err
+		}
+
+		// unmarshall response and get the movie array
+		respBody, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+		var respStruct omdbapiResponse
+		json.Unmarshal(respBody, &respStruct)
+		fullMovieList = append(fullMovieList, respStruct.Search...)
 	}
 
-	// unmarshall response and get the movie array
-	respBody, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	var respStruct omdbapiResponse
-	json.Unmarshal(respBody, &respStruct)
-
-	// return result
-	return respStruct.Search, nil
+	return fullMovieList, nil
 }
