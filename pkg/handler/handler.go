@@ -8,6 +8,7 @@ import (
 	"github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies"
 )
 
+
 func createSearchMoviesHandler(s movies.MovieSearcher) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
 		// get parameter from request
@@ -16,7 +17,28 @@ func createSearchMoviesHandler(s movies.MovieSearcher) func(http.ResponseWriter,
 
 		// call service to get movies
 		movies, err := s.SearchMovies(searchQuery)
+		
 
+		// generate response
+		response := make(map[string]interface{})
+		response["result"] = movies
+		if err != nil {
+			response["error"] = err.Error()
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}	
+
+
+func createOrderMoviesHandler(s movies.MovieSearcher) func(http.ResponseWriter, *http.Request){
+	return func(w http.ResponseWriter, req *http.Request) {
+		// get parameter from request
+		queryParams := req.URL.Query()
+		searchQuery := queryParams.Get("q")
+
+		// call service to get movies
+		movies, err := s.OrdererMovies(searchQuery)
+		
 		// generate response
 		response := make(map[string]interface{})
 		response["result"] = movies
@@ -27,9 +49,11 @@ func createSearchMoviesHandler(s movies.MovieSearcher) func(http.ResponseWriter,
 	}
 }
 
+
 // NewHandler returns a router with all endpoint handlers
 func NewHandler(s movies.MovieSearcher) http.Handler {
 	router := mux.NewRouter()
 	router.HandleFunc("/movies", createSearchMoviesHandler(s)).Methods("GET")
+	router.HandleFunc("/movies-sorted", createOrderMoviesHandler(s)).Methods("GET")
 	return router
 }
