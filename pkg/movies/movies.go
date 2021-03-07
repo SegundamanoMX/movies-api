@@ -33,5 +33,5 @@ func (m Movies) Swap(i, j int) {
 
 // MovieSearcher is the interfaces for anything that searches for movies
 type MovieSearcher interface {
-	SearchMovies(query, page string) (Movies, error)
+	SearchMovies(query, page string) (Movies, int, error)
 }
