@@ -45,7 +45,7 @@ func TestSearchMovies(t *testing.T) {
 
 		// run test
 		t.Run(c.name, func(t *testing.T) {
-			actualMovies, actualError := searcher.SearchMovies("star wars", "1")
+			actualMovies, _, actualError := searcher.SearchMovies("star wars", "1")
 			assert.EqualValues(t, c.expectedMovies, actualMovies)
 			if c.expectedErrorString == "" {
 				assert.NoError(t, actualError)
@@ -102,7 +102,7 @@ func TestSortedSearchMovies(t *testing.T) {
 		switch {
 		case c.name == "RegularSortedCase1Page1":
 			t.Run(c.name, func(t *testing.T) {
-				actualMovies, actualError := searcher.SearchMovies("black", "1")
+				actualMovies, _, actualError := searcher.SearchMovies("black", "1")
 				assert.EqualValues(t, c.expectedMovies, actualMovies)
 				if c.expectedErrorString == "" {
 					assert.NoError(t, actualError)
@@ -112,7 +112,7 @@ func TestSortedSearchMovies(t *testing.T) {
 			})
 		case c.name == "RegularSortedCase1Page2":
 			t.Run(c.name, func(t *testing.T) {
-				actualMovies, actualError := searcher.SearchMovies("black", "2")
+				actualMovies, _, actualError := searcher.SearchMovies("black", "2")
 				assert.EqualValues(t, c.expectedMovies, actualMovies)
 				if c.expectedErrorString == "" {
 					assert.NoError(t, actualError)
