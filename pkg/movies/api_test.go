@@ -45,7 +45,7 @@ func TestSearchMovies(t *testing.T) {
 
 		// run test
 		t.Run(c.name, func(t *testing.T) {
-			actualMovies, actualError := searcher.SearchMovies("star wars")
+			actualMovies, actualError := searcher.SearchMovies("star wars", "1")
 			assert.EqualValues(t, c.expectedMovies, actualMovies)
 			if c.expectedErrorString == "" {
 				assert.NoError(t, actualError)
