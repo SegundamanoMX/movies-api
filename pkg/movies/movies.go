@@ -8,5 +8,6 @@ type Movie struct {
 
 // MovieSearcher is the interfaces for anything that searches for movies
 type MovieSearcher interface {
-	SearchMovies(query string) ([]Movie, error)
+	SearchMovies(query string, page int) ([]Movie, error)
+	SearchCount(query string) (int, error)
 }
