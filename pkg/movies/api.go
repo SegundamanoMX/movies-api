@@ -2,7 +2,6 @@ package movies
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -27,9 +26,6 @@ func (s *APIMovieSearcher) SearchMovies(query string, page string) ([]Movie, err
 	params.Add("apikey", s.APIKey)
 	params.Add("type", "movie")
 	params.Add("page", page)
-
-	fmt.Println(s.URL)
-	fmt.Println(params.Encode())
 
 	resp, err := http.Get(s.URL + "?" + params.Encode())
 	if err != nil {

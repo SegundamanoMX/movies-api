@@ -28,6 +28,22 @@ func TestSearchMovies(t *testing.T) {
 			search:              "star wars",
 			expectedErrorString: "",
 		},
+		{
+			name:                "No query value",
+			mockResponseBody:    `{"Search":[]}`,
+			expectedMovies:      []Movie{},
+			page:                "1",
+			search:              "",
+			expectedErrorString: "",
+		},
+		{
+			name:                "Search not found",
+			mockResponseBody:    `{"Search":[]}`,
+			expectedMovies:      []Movie{},
+			page:                "1",
+			search:              "****",
+			expectedErrorString: "",
+		},
 	}
 
 	searcher := &APIMovieSearcher{
