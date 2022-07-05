@@ -15,7 +15,7 @@ Here are some basic go commands you can use to work with movies-api.
 NOTE: The API by default listens on port 5432; this is set in the main function.
 
 ## Postman 
-* http://localhost:3000/movies-sorted?q="The"&sort=ASC&page=2
+* http://localhost:3000/movies-sorted?q="The"&sort=ASC&page=2   (GET)
 
 ### Parameters
 * q = movie name
