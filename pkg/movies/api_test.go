@@ -13,6 +13,8 @@ func TestSearchMovies(t *testing.T) {
 		name                string
 		mockResponseBody    string
 		expectedMovies      []Movie
+		page                string
+		search              string
 		expectedErrorString string
 	}{
 		{
@@ -22,6 +24,8 @@ func TestSearchMovies(t *testing.T) {
 				{Title: "Star Wars: A New Hope", Year: "1977"},
 				{Title: "Star Wars: The Empire Strikes Back", Year: "1980"},
 			},
+			page:                "1",
+			search:              "star wars",
 			expectedErrorString: "",
 		},
 	}
@@ -45,7 +49,8 @@ func TestSearchMovies(t *testing.T) {
 
 		// run test
 		t.Run(c.name, func(t *testing.T) {
-			actualMovies, actualError := searcher.SearchMovies("star wars", "1")
+			actualMovies, actualError := searcher.SearchMovies(c.search, c.page)
+
 			assert.EqualValues(t, c.expectedMovies, actualMovies)
 			if c.expectedErrorString == "" {
 				assert.NoError(t, actualError)
@@ -54,4 +59,80 @@ func TestSearchMovies(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestSearchMoviesSort(t *testing.T) {
+
+	cases := []struct {
+		name                string
+		mockResponseBody    string
+		expectedMovies      []Movie
+		page                string
+		search              string
+		expectedErrorString string
+	}{
+		{
+			name:             "Sort ASC",
+			mockResponseBody: `{"Search":[{"Title":"The Godfather","Year":"1972"},{"Title":"The Silence of the Lambs","Year":"1991"}]}`,
+			expectedMovies: []Movie{
+				{Title: "The Godfather", Year: "1972"},
+				{Title: "The Silence of the Lambs", Year: "1991"},
+			},
+			page:                "1",
+			search:              "The",
+			expectedErrorString: "",
+		},
+		{
+			name:             "Sort DESC",
+			mockResponseBody: `{"Search":[{"Title":"The Dark Knight Rises","Year":"2012"},{"Title":"The Avengers","Year":"2012"}]}`,
+			expectedMovies: []Movie{
+				{Title: "The Dark Knight Rises", Year: "2012"},
+				{Title: "The Avengers", Year: "2012"},
+			},
+			page:                "1",
+			search:              "The",
+			expectedErrorString: "",
+		},
+		{
+			name:             "SORT ASC PAGE 2",
+			mockResponseBody: `{"Search":[{"Title":"The Godfather Part II","Year":"1974"},{"Title":"Star Wars: Episode V - The Empire Strikes Back","Year":"1980"}]}`,
+			expectedMovies: []Movie{
+				{Title: "The Godfather Part II", Year: "1974"},
+				{Title: "Star Wars: Episode V - The Empire Strikes Back", Year: "1980"},
+			},
+			page:                "2",
+			search:              "The",
+			expectedErrorString: "",
+		},
+	}
+
+	searcher := &APIMovieSearcher{
+		URL:    "http://localhost:3000/movies-sorted/",
+		APIKey: "47494e7e",
+	}
+
+	for _, c := range cases {
+		httpmock.RegisterResponder(
+			"GET",
+			"http://localhost:3000/movies-sorted/",
+			func(req *http.Request) (*http.Response, error) {
+				return httpmock.NewStringResponse(200, c.mockResponseBody), nil
+			},
+		)
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		// run test
+		t.Run(c.name, func(t *testing.T) {
+			actualMovies, actualError := searcher.SearchMovies(c.search, c.page)
+			assert.EqualValues(t, c.expectedMovies, actualMovies)
+			if c.expectedErrorString == "" {
+				assert.NoError(t, actualError)
+			} else {
+				assert.EqualError(t, actualError, c.expectedErrorString)
+			}
+		})
+
+	}
+
 }

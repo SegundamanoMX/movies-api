@@ -28,7 +28,8 @@ func (s *APIMovieSearcher) SearchMovies(query string, page string) ([]Movie, err
 	params.Add("type", "movie")
 	params.Add("page", page)
 
-	fmt.Println(params)
+	fmt.Println(s.URL)
+	fmt.Println(params.Encode())
 
 	resp, err := http.Get(s.URL + "?" + params.Encode())
 	if err != nil {
