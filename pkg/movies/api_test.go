@@ -124,7 +124,7 @@ func TestSearchMoviesSort(t *testing.T) {
 
 	searcher := &APIMovieSearcher{
 		URL:    "http://localhost:3000/movies-sorted/",
-		APIKey: "47494e7e",
+		APIKey: "mock-api-key",
 	}
 
 	for _, c := range cases {
@@ -145,6 +145,55 @@ func TestSearchMoviesSort(t *testing.T) {
 			if c.expectedErrorString == "" {
 				assert.NoError(t, actualError)
 			} else {
+				assert.EqualError(t, actualError, c.expectedErrorString)
+			}
+		})
+
+	}
+
+}
+
+func TestSearchMoviesBadUrl(t *testing.T) {
+
+	cases := []struct {
+		name                string
+		mockResponseBody    string
+		expectedMovies      []Movie
+		page                string
+		search              string
+		expectedErrorString string
+	}{
+		{
+			name:                "Bad Url",
+			mockResponseBody:    `{"Search":[]}`,
+			expectedMovies:      nil,
+			page:                "1",
+			search:              "The",
+			expectedErrorString: "Get 'http://localhost:3000/movies-sorted/?apikey=mock-api-key&page=1&s=The&type=movie': no responder found",
+		},
+	}
+
+	searcher := &APIMovieSearcher{
+		URL:    "http://localhost:3000/movies-sorted/",
+		APIKey: "mock-api-key",
+	}
+
+	for _, c := range cases {
+		httpmock.RegisterResponder(
+			"GET",
+			"http://localhost:3000/movies-sorte",
+			func(req *http.Request) (*http.Response, error) {
+				return httpmock.NewStringResponse(200, c.mockResponseBody), nil
+			},
+		)
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		// run test
+		t.Run(c.name, func(t *testing.T) {
+			actualMovies, actualError := searcher.SearchMovies(c.search, c.page)
+			assert.EqualValues(t, c.expectedMovies, actualMovies)
+			if c.expectedErrorString == "" {
 				assert.EqualError(t, actualError, c.expectedErrorString)
 			}
 		})
