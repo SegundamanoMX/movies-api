@@ -1,0 +1,24 @@
+mode: set
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:24.97,31.14 5 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:34.2,35.16 2 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:40.2,41.16 2 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:44.2,46.16 3 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:51.2,51.25 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:31.14,33.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:35.16,37.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:41.16,43.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:46.16,48.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:55.72,60.16 4 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:63.2,64.36 2 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:72.2,72.20 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:60.16,62.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:64.36,66.17 2 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:69.3,69.46 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:66.17,67.9 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:75.78,78.16 2 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:81.2,81.41 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:88.2,88.20 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:78.16,80.3 1 0
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:81.41,82.39 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:85.3,85.41 1 1
+github.mpi-internal.com/guillermo-dlsg/movies-api/pkg/movies/api.go:82.39,84.4 1 1

@@ -14,6 +14,6 @@ func main() {
 		URL:    "https://www.omdbapi.com/",
 	}
 
-	handler := handler.NewHandler(movieSearcher)
-	log.Fatal(http.ListenAndServe(":5432", handler))
+	newHandler := handler.NewHandler(movieSearcher)
+	log.Fatal(http.ListenAndServe(":5432", newHandler))
 }
