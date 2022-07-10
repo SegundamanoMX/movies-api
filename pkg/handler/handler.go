@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sort"
 
@@ -32,7 +33,7 @@ func createSearchMoviesHandler(s movies.MovieSearcher) func(http.ResponseWriter,
 	}
 }
 
-func createSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWriter, *http.Request) {
+func CreateSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
 		queryParams := req.URL.Query()
 		searchQuery := queryParams.Get("q")
@@ -47,6 +48,9 @@ func createSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 		if err != nil {
 			response["error"] = err.Error()
 		}
+
+		fmt.Println("***********************")
+		fmt.Println(movies)
 
 		if sortQuery != "" {
 			sort.SliceStable(movies, func(i, j int) bool {
@@ -79,7 +83,17 @@ func createSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 			})
 		}
 		response["result"] = movies
-		json.NewEncoder(w).Encode(response)
+
+		fmt.Println("***********RESP************")
+		fmt.Println(response)
+
+		js, _ := json.MarshalIndent(response, "", "\t")
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(js)
+		//fmt.Fprintf(w, strings.ToUpper(""))
+		//json.NewEncoder(w).Encode(response)
 	}
 }
 
@@ -87,6 +101,6 @@ func createSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 func NewHandler(s movies.MovieSearcher) http.Handler {
 	router := mux.NewRouter()
 	router.HandleFunc("/movies", createSearchMoviesHandler(s)).Methods("GET")
-	router.HandleFunc("/movies-sorted", createSearchMoviesHandlerSort(s)).Methods("GET")
+	router.HandleFunc("/movies-sorted", CreateSearchMoviesHandlerSort(s)).Methods("GET")
 	return router
 }

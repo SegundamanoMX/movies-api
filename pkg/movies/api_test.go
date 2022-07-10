@@ -89,7 +89,7 @@ func TestSearchMoviesSort(t *testing.T) {
 	}{
 		{
 			name:             "Sort ASC",
-			mockResponseBody: `{"Search":[{"Title":"The Godfather","Year":"1972"},{"Title":"The Silence of the Lambs","Year":"1991"}]}`,
+			mockResponseBody: `{"Search":[{"Title":"The Matrix","Year":"1999"},{"Title":"The Matrix Reloaded","Year":"2003"},{"Title":"The Matrix Revolutions","Year":"2003"},{"Title":"The Matrix Resurrections","Year":"2021"},{"Title":"Making 'The Matrix'","Year":"1999"},{"Title":"The Matrix Revisited","Year":"2001"},{"Title":"A Glitch in the Matrix","Year":"2021"},{"Title":"Armitage III: Dual Matrix","Year":"2002"},{"Title":"Sex and the Matrix","Year":"2000"},{"Title":"The Matrix Reloaded Revisited","Year":"2004"}]}`,
 			expectedMovies: []Movie{
 				{Title: "The Godfather", Year: "1972"},
 				{Title: "The Silence of the Lambs", Year: "1991"},
