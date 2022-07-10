@@ -18,13 +18,15 @@ type omdbapiResponse struct {
 }
 
 // SearchMovies searches for a movie
-func (s *APIMovieSearcher) SearchMovies(query string) ([]Movie, error) {
+func (s *APIMovieSearcher) SearchMovies(query string, page string) ([]Movie, error) {
 
 	// call omdbapi
 	params := url.Values{}
 	params.Add("s", query)
 	params.Add("apikey", s.APIKey)
 	params.Add("type", "movie")
+	params.Add("page", page)
+
 	resp, err := http.Get(s.URL + "?" + params.Encode())
 	if err != nil {
 		return nil, err
