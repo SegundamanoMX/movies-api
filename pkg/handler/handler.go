@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"sort"
 
@@ -49,9 +48,6 @@ func CreateSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 			response["error"] = err.Error()
 		}
 
-		fmt.Println("***********************")
-		fmt.Println(movies)
-
 		if sortQuery != "" {
 			sort.SliceStable(movies, func(i, j int) bool {
 				result := false
@@ -83,9 +79,6 @@ func CreateSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 			})
 		}
 		response["result"] = movies
-
-		fmt.Println("***********RESP************")
-		fmt.Println(response)
 
 		js, _ := json.MarshalIndent(response, "", "\t")
 
