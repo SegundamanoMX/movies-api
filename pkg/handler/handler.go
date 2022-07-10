@@ -85,8 +85,6 @@ func CreateSearchMoviesHandlerSort(s movies.MovieSearcher) func(http.ResponseWri
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(js)
-		//fmt.Fprintf(w, strings.ToUpper(""))
-		//json.NewEncoder(w).Encode(response)
 	}
 }
 
